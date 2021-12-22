@@ -58,6 +58,9 @@ instance eqJson :: Eq Json where
 instance ordJson :: Ord Json where
   compare a b = runFn5 _compare EQ GT LT a b
 
+instance  showJson :: Show Json where
+  show j = stringify j
+
 -- | The type of null values inside JSON data. There is exactly one value of
 -- | this type: in JavaScript, it is written `null`. This module exports this
 -- | value as `jsonNull`.
@@ -230,7 +233,7 @@ jsonEmptyObject = fromObject Obj.empty
 
 -- | Constructs a `Json` array value containing only the provided value
 jsonSingletonArray :: Json -> Json
-jsonSingletonArray j = fromArray [ j ]
+jsonSingletonArray j = fromArray [j]
 
 -- | Constructs a `Json` object value containing only the provided key and value
 jsonSingletonObject :: String -> Json -> Json
@@ -248,13 +251,13 @@ foreign import stringifyWithIndent :: Int -> Json -> String
 foreign import _caseJson
   :: forall z
    . Fn7
-       (Unit -> z)
-       (Boolean -> z)
-       (Number -> z)
-       (String -> z)
-       (Array Json -> z)
-       (Object Json -> z)
-       Json
-       z
+      (Unit -> z)
+      (Boolean -> z)
+      (Number -> z)
+      (String -> z)
+      (Array Json -> z)
+      (Object Json -> z)
+      Json
+      z
 
 foreign import _compare :: Fn5 Ordering Ordering Ordering Json Json Ordering
